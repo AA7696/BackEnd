@@ -180,3 +180,17 @@ server.listen(5000);
 
 ```
 
+# NPM
+
+npm - global command comes with code.  
+npm --v.  
+
+local dependency - use it only in particular project.  
+`npm i package`.  
+
+global dependency - use it in any project.  
+`npm i -g package`.  
+
+package.json - manifest file.  
+`npm init -y`.  
+
