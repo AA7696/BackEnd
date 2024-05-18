@@ -186,11 +186,119 @@ npm - global command comes with code.
 npm --v.  
 
 local dependency - use it only in particular project.  
-`npm i package`.  
+`npm i packageName`.  
 
 global dependency - use it in any project.  
-`npm i -g package`.  
+`npm i -g packageName`.  
 
 package.json - manifest file.  
 `npm init -y`.  
+
+dev dependency- Not for production.  
+`npm packageName -D`.  
+
+## NPM Vs NPX
+NPM is a package management that is used to install, uninstall, and update Javascript packages on your workstation.  
+ whereas NPX is a package executer that is used to directly execute Javascript packages without installing them.
+
+# Event Loop
+
+[EventLoop Video](https://www.youtube.com/watch?v=8aGhZQkoFbQ).  
+
+# Async Pattern
+
+```
+const http = require('http');
+const server = http.createServer((req, res)=>{
+ if(req.url === '/'){
+    res.end('Home Page');
+ }
+ if(req.url === '/about'){
+    // Blocking Code
+    for (let i = 0; i < 1000; i++) {
+        for (let j = 0; j < 1000; j++) {
+           console.log("Hi");   
+        }  
+    }
+    res.end('About Page');
+ }
+ res.end("Error");
+})
+server.listen(3000, () =>{
+    console.log("Server Listening on port 3000");
+})
+
+```
+
+```
+const {readFile} = require('fs');
+
+const getPath = (path) =>{
+    return new Promise((res, rej) =>{
+        readFile(path, 'utf8',(err, data) =>{
+            if(err){
+                rej(err);
+            }else{
+                res(data)
+            }
+        })
+    })
+}
+
+getPath('../content/first.txt')
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
+```
+
+# Events
+
+Event-Driven Programming.  
+used heavily in Node js.  
+
+## Events Emitter
+
+`Basic Setup`
+
+```
+const EventEmitter = require('events')
+
+const coustomEmitter = new EventEmitter();
+
+// on - listen an event
+// emit - emit an event
+
+coustomEmitter.on('response', () =>{
+    console.log("Data fetched");
+})
+
+coustomEmitter.emit('response')
+
+```
+`Additional Info`
+
+```
+const EventEmitter = require('events')
+const coustomEmitter = new EventEmitter();
+
+// on - listen an event
+// emit - emit an event
+coustomEmitter.on('response', (name, age) =>{
+    console.log(`Data fetched ${name} ${age}`);
+})
+coustomEmitter.on('response', () =>{
+    console.log("Some other Logic");
+})
+// Logic will not broke If we use parameters
+
+coustomEmitter.emit('response', 'John', 45)
+```
+
+# Streams
+
+A stream is an abstract interface for working with streaming data in Node.js. The node:stream module provides an API for implementing the stream interface.  
+
+There are many stream objects provided by Node.js. For instance, a request to an HTTP server and process.stdout are both stream instances.  
+
+Streams can be readable, writable, or both. All streams are instances of EventEmitter.  
+
 
